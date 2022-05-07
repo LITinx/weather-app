@@ -1,0 +1,137 @@
+:root {
+  --main-color: hsl(30, 63%, 74%);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+input {
+  all: unset;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: #fff;
+}
+
+.container {
+  max-width: 1240px;
+  padding: 0 20px;
+  margin: 0 auto;
+}
+
+.header {
+  padding: 30px 0;
+}
+.header__nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.nav__form {
+  display: flex;
+  align-items: center;
+}
+.nav__main {
+  display: flex;
+  align-items: center;
+}
+.nav__logo {
+  font-size: 45px;
+}
+.wi-day-cloudy {
+  color: var(--main-color);
+}
+.search__icon {
+  fill: gray;
+}
+.form__button {
+  background: transparent;
+  border: none;
+  margin-left: -30px;
+  margin-top: 5px;
+}
+
+.form__input {
+  margin-left: 50px;
+  width: 150px;
+  outline: none;
+  padding: 7px 10px;
+  border-radius: 15px;
+  border: solid 3px var(--main-color);
+}
+.main {
+  padding: 40px 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.weather-info-logo {
+  color: #000;
+}
+.card {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.card__info {
+  display: flex;
+  flex-direction: column;
+}
+.card__title {
+  font-size: 1.2rem;
+}
+.card__stats {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.stats__temp {
+  font-size: 2.6rem;
+}
+.stats__desc {
+  font-size: 16px;
+  margin-top: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.stats__info > ul {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 320px;
+  list-style: none;
+}
+.stats__info li {
+  font-size: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
+  margin-bottom: 7px;
+}
+
+.stats__info li > svg {
+  height: 12px;
+  width: 12px;
+}
+@media (max-width: 786px) {
+  .card {
+    flex-direction: column;
+    gap: 20px;
+  }
+  iframe {
+    width: 350px;
+  }
+  .stats__info li {
+    font-size: 14px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+@media (max-width: 425px) {
+  iframe {
+    width: 280px;
+  }
+}
