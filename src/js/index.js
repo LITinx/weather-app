@@ -22,11 +22,13 @@ const RU_WIND_NAMES = [
 	'Штормовой ветер',
 ];
 let lang = 'RU';
+let searchValue;
+
 searchBtn.addEventListener('click', (e) => {
 	e.preventDefault();
-	const value = searchInput.value;
+	searchValue = searchInput.value;
 	searchInput.value = '';
-	fetchWeather(lang, value);
+	fetchWeather(lang, searchValue);
 });
 switchBtn.addEventListener('click', (e) => {
 	e.preventDefault();
@@ -35,8 +37,7 @@ switchBtn.addEventListener('click', (e) => {
 	} else {
 		lang = 'RU';
 	}
-	console.log(lang);
-	fetchWeather(lang);
+	fetchWeather(lang, searchValue);
 });
 
 const fillHtml = (city, lang) => {
