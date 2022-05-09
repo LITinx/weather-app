@@ -2,16 +2,44 @@ const searchBtn = document.getElementById('searchBtn');
 const searchInput = document.getElementById('searchInput');
 const WEATHER_API = '1c3d95576952b1e721446421b520e447';
 const card = document.querySelector('.card');
-const calvin = 273;
-
+const switchBtn = document.getElementById('switchBtn');
+const EN_WIND_NAMES = [
+	'Calm',
+	'Light breeze',
+	'Gentle breeze',
+	'Moderate breeze',
+	'Fresh breeze',
+	'Strong breeze',
+	'Gale',
+];
+const RU_WIND_NAMES = [
+	'Спокойно',
+	'Легкий ветерок',
+	'Слабый ветер',
+	'Умеренный ветер',
+	'Свежий ветер',
+	'Сильный ветер',
+	'Штормовой ветер',
+];
+let lang = 'RU';
 searchBtn.addEventListener('click', (e) => {
 	e.preventDefault();
 	const value = searchInput.value;
 	searchInput.value = '';
-	fetchWeather(value);
+	fetchWeather(lang, value);
+});
+switchBtn.addEventListener('click', (e) => {
+	e.preventDefault();
+	if (lang === 'RU') {
+		lang = 'EN';
+	} else {
+		lang = 'RU';
+	}
+	console.log(lang);
+	fetchWeather(lang);
 });
 
-const fillHtml = (city) => {
+const fillHtml = (city, lang) => {
 	card.innerHTML = `
    <div class="card__info">
           <div class="card__title">
@@ -22,13 +50,17 @@ const fillHtml = (city) => {
             <i class='wi ${iconChooser(
 							city.weather[0].icon,
 						)} weather-info-logo'></i>
-            ${Math.floor(city.main.temp - calvin)}°C</div>
-            <div class="stats__desc">Feels like ${Math.floor(
-							city.main.feels_like - calvin,
-						)}°C. ${
+            ${Math.floor(city.main.temp)}°C</div>
+            <div class="stats__desc">${
+							lang === 'RU' ? 'Чувствуется как' : 'Feels like'
+						} ${Math.floor(city.main.feels_like)}°C. ${
 		city.weather[0].description[0].toUpperCase() +
 		city.weather[0].description.slice(1)
-	}. ${windChecker(city.wind.speed)}</div>
+	}. ${
+		lang === 'RU'
+			? windChecker(city.wind.speed, RU_WIND_NAMES)
+			: windChecker(city.wind.speed, EN_WIND_NAMES)
+	}</div>
             <div class="stats__info">
               <ul>
                 <li>
@@ -43,7 +75,9 @@ const fillHtml = (city) => {
                       </path>
                     </g>
                   </svg>
-                  ${city.wind.speed.toFixed(1)}m/s NNW
+                  ${city.wind.speed.toFixed(1)}${
+		lang === 'RU' ? 'м/с' : 'm/s'
+	} NNW
                 </li>
                 <li>
                   <svg data-v-7bdd0738="" data-v-3208ab85="" width="96pt" height="96pt" viewBox="0 0 96 96"
@@ -64,13 +98,17 @@ const fillHtml = (city) => {
                       -59 -60z"></path>
                     </g>
                   </svg>
-                  ${city.main.pressure}hPa
+                  ${city.main.pressure}${lang === 'RU' ? 'гПа' : 'hPa'}
                 </li>
                 <li>
-                  Humidity: ${city.main.humidity}%
+                  ${lang === 'RU' ? 'Влажность' : 'Humidity'}: ${
+		city.main.humidity
+	}%
                 </li>
                 <li>
-                  Visibility: ${city.visibility / 1000}.0km
+                  ${lang === 'RU' ? 'Видимость' : 'Visibility'}: ${
+		city.visibility / 1000
+	}.0${lang === 'RU' ? 'км' : 'km'}
                 </li>
               </ul>
             </div>
@@ -85,19 +123,18 @@ const fillHtml = (city) => {
           style="border: 1px solid black"></iframe>
   `;
 };
-const fetchWeather = async (searchValue = 'Naryn') => {
+const fetchWeather = async (lang, searchValue = 'Naryn') => {
 	try {
 		const res = await fetch(`
-		https://api.openweathermap.org/data/2.5/weather?q=${searchValue}&appid=${WEATHER_API}
+		https://api.openweathermap.org/data/2.5/weather?q=${searchValue}&appid=${WEATHER_API}&units=metric&lang=${lang}
 		`);
 		const data = await res.json();
-		console.log(data);
-		fillHtml(data);
+		fillHtml(data, lang);
 	} catch (err) {
 		console.error(err);
 	}
 };
-fetchWeather();
+fetchWeather(lang);
 
 const iconChooser = (weather) => {
 	switch (weather) {
@@ -139,12 +176,13 @@ const iconChooser = (weather) => {
 			return 'wi-windy';
 	}
 };
-const windChecker = (wind) => {
-	if (wind < 2) return 'Calm';
-	if (wind < 4) return 'Light breeze';
-	if (wind < 6) return 'Gentle breeze';
-	if (wind < 8) return 'Moderate breeze';
-	if (wind < 11) return 'Fresh breeze';
-	if (wind < 14) return 'Strong breeze';
-	if (wind > 14) return 'Gale';
+const windChecker = (wind, langNames) => {
+	if (langNames.length === 0) return;
+	if (wind < 2) return langNames[0];
+	if (wind < 4) return langNames[1];
+	if (wind < 6) return langNames[2];
+	if (wind < 8) return langNames[3];
+	if (wind < 11) return langNames[4];
+	if (wind < 14) return langNames[5];
+	if (wind > 14) return langNames[6];
 };

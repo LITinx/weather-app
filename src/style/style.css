@@ -30,6 +30,18 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.nav__switch > button {
+  margin-left: 30px;
+  background-color: transparent;
+  border: 3px solid var(--main-color);
+  padding: 6px 8px;
+  border-radius: 9px;
+  cursor: pointer;
+}
+.nav__switch > button:hover {
+  background-color: hsl(30, 83%, 84%);
+}
 .nav__form {
   display: flex;
   align-items: center;
@@ -106,9 +118,9 @@ body {
   list-style: none;
 }
 .stats__info li {
-  font-size: 16px;
-  padding-left: 16px;
-  padding-right: 16px;
+  font-size: 15px;
+  padding-left: 14px;
+  padding-right: 14px;
   margin-bottom: 7px;
 }
 
@@ -133,5 +145,14 @@ body {
 @media (max-width: 425px) {
   iframe {
     width: 280px;
+  }
+  .form__input {
+    width: 100px;
+    margin-left: 20px;
+  }
+  .nav__switch > button {
+    font-size: 10px;
+    margin-left: 20px;
+    padding: 10px 9px;
   }
 }
