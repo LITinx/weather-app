@@ -1,8 +1,8 @@
-const searchBtn = document.getElementById('searchBtn');
-const searchInput = document.getElementById('searchInput');
-const WEATHER_API = '1c3d95576952b1e721446421b520e447';
-const card = document.querySelector('.card');
-const switchBtn = document.getElementById('switchBtn');
+const searchBtn = document.getElementById('searchBtn')
+const searchInput = document.getElementById('searchInput')
+const WEATHER_API = '1c3d95576952b1e721446421b520e447'
+const card = document.querySelector('.card')
+const switchBtn = document.getElementById('switchBtn')
 const EN_WIND_NAMES = [
 	'Calm',
 	'Light breeze',
@@ -11,7 +11,7 @@ const EN_WIND_NAMES = [
 	'Fresh breeze',
 	'Strong breeze',
 	'Gale',
-];
+]
 const RU_WIND_NAMES = [
 	'Спокойно',
 	'Легкий ветерок',
@@ -20,25 +20,25 @@ const RU_WIND_NAMES = [
 	'Свежий ветер',
 	'Сильный ветер',
 	'Штормовой ветер',
-];
-let lang = 'RU';
-let searchValue;
+]
+let lang = 'RU'
+let searchValue
 
 searchBtn.addEventListener('click', (e) => {
-	e.preventDefault();
-	searchValue = searchInput.value;
-	searchInput.value = '';
-	fetchWeather(lang, searchValue);
-});
+	e.preventDefault()
+	searchValue = searchInput.value
+	searchInput.value = ''
+	fetchWeather(lang, searchValue)
+})
 switchBtn.addEventListener('click', (e) => {
-	e.preventDefault();
+	e.preventDefault()
 	if (lang === 'RU') {
-		lang = 'EN';
+		lang = 'EN'
 	} else {
-		lang = 'RU';
+		lang = 'RU'
 	}
-	fetchWeather(lang, searchValue);
-});
+	fetchWeather(lang, searchValue)
+})
 
 const fillHtml = (city, lang) => {
 	card.innerHTML = `
@@ -51,10 +51,10 @@ const fillHtml = (city, lang) => {
             <i class='wi ${iconChooser(
 							city.weather[0].icon,
 						)} weather-info-logo'></i>
-            ${Math.floor(city.main.temp)}°C</div>
+            ${Math.round(city.main.temp)}°C</div>
             <div class="stats__desc">${
 							lang === 'RU' ? 'Чувствуется как' : 'Feels like'
-						} ${Math.floor(city.main.feels_like)}°C. ${
+						} ${Math.round(city.main.feels_like)}°C. ${
 		city.weather[0].description[0].toUpperCase() +
 		city.weather[0].description.slice(1)
 	}. ${
@@ -122,68 +122,68 @@ const fillHtml = (city, lang) => {
 		city.coord.lon + 0.09
 	}440429687501%2C${city.coord.lat + 0.09}31835884432054&amp;layer=mapnik"
           style="border: 1px solid black"></iframe>
-  `;
-};
+  `
+}
 const fetchWeather = async (lang, searchValue = 'Naryn') => {
 	try {
 		const res = await fetch(`
 		https://api.openweathermap.org/data/2.5/weather?q=${searchValue}&appid=${WEATHER_API}&units=metric&lang=${lang}
-		`);
-		const data = await res.json();
-		fillHtml(data, lang);
+		`)
+		const data = await res.json()
+		fillHtml(data, lang)
 	} catch (err) {
-		console.error(err);
+		console.error(err)
 	}
-};
-fetchWeather(lang);
+}
+fetchWeather(lang)
 
 const iconChooser = (weather) => {
 	switch (weather) {
 		case '01d':
-			return 'wi-day-sunny';
+			return 'wi-day-sunny'
 		case '02d':
-			return 'wi-day-cloudy';
+			return 'wi-day-cloudy'
 		case '03d':
-			return 'wi-cloud';
+			return 'wi-cloud'
 		case '04d':
-			return 'wi-cloudy';
+			return 'wi-cloudy'
 		case '09d':
-			return 'wi-showers';
+			return 'wi-showers'
 		case '10d':
-			return 'wi-day-showers';
+			return 'wi-day-showers'
 		case '11d':
-			return 'wi-thunderstorm';
+			return 'wi-thunderstorm'
 		case '13d':
-			return 'wi-snow';
+			return 'wi-snow'
 		case '50d':
-			return 'wi-windy';
+			return 'wi-windy'
 		case '01n':
-			return 'wi-night-clear';
+			return 'wi-night-clear'
 		case '02n':
-			return 'wi-night-alt-cloudy';
+			return 'wi-night-alt-cloudy'
 		case '03n':
-			return 'wi-cloud';
+			return 'wi-cloud'
 		case '04n':
-			return 'wi-cloudy';
+			return 'wi-cloudy'
 		case '09n':
-			return 'wi-showers';
+			return 'wi-showers'
 		case '10n':
-			return 'wi-night-alt-showers';
+			return 'wi-night-alt-showers'
 		case '11n':
-			return 'wi-thunderstorm';
+			return 'wi-thunderstorm'
 		case '13n':
-			return 'wi-snow';
+			return 'wi-snow'
 		case '50n':
-			return 'wi-windy';
+			return 'wi-windy'
 	}
-};
+}
 const windChecker = (wind, langNames) => {
-	if (langNames.length === 0) return;
-	if (wind < 2) return langNames[0];
-	if (wind < 4) return langNames[1];
-	if (wind < 6) return langNames[2];
-	if (wind < 8) return langNames[3];
-	if (wind < 11) return langNames[4];
-	if (wind < 14) return langNames[5];
-	if (wind > 14) return langNames[6];
-};
+	if (langNames.length === 0) return
+	if (wind < 2) return langNames[0]
+	if (wind < 4) return langNames[1]
+	if (wind < 6) return langNames[2]
+	if (wind < 8) return langNames[3]
+	if (wind < 11) return langNames[4]
+	if (wind < 14) return langNames[5]
+	if (wind > 14) return langNames[6]
+}
